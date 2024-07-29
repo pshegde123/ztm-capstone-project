@@ -4,7 +4,9 @@ import { getAuth,
         signInWithRedirect,
         signInWithPopup,
         GoogleAuthProvider,
-        createUserWithEmailAndPassword } from "firebase/auth";
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword
+     } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -28,7 +30,7 @@ provider.setCustomParameters({
 });
 
 export const auth = getAuth();
-export const singInWithGooglePopup = () => signInWithPopup(auth,provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth,provider);
 export const db = getFirestore();
 export const createUserDocumentFromAuth =  async (userAuth,additionalInfo = {}) => {
     if (!userAuth) return;
@@ -69,3 +71,27 @@ export const createAuthUserWithEmailAndPassword = async (email,password) => {
     }
     
 }
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+    try{
+        return await signInWithEmailAndPassword(auth, email, password);
+    }catch(error){
+        switch (error.code) {
+            case 'auth/wrong-password':
+              alert('incorrect password for email');
+              break;
+            case 'auth/too-many-requests':
+                alert('too many requests');
+                break;
+            case 'auth/invalid-credential':
+                alert('invalid creadentials');
+                break;  
+            case 'auth/user-not-found':
+              alert('no user associated with this email');
+              break;            
+            default:
+              console.log(error);
+              console.log(error.code);
+          }
+    }    
+  };
