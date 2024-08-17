@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth,
-        signInWithRedirect,
+import { getAuth,        
         signInWithPopup,
         GoogleAuthProvider,
         createUserWithEmailAndPassword,
@@ -33,6 +32,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
+console.log('firebaseApp = ',firebaseApp);
+
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
     prompt:"select_account"
